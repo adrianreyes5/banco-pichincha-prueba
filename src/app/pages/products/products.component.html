@@ -1,0 +1,51 @@
+<div class="table-container">
+  <div class="search-input">
+    <input
+      type="text"
+      [(ngModel)]="inputValue"
+      (input)="handleInputFilter()"
+      placeholder="Search..."
+    />
+  </div>
+  <table>
+    <thead>
+      <tr>
+        <th>Logo</th>
+        <th>Nombre del productor</th>
+        <th>Descripción</th>
+        <th>Fecha de liberación</th>
+        <th>Fecha de reestructuración</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of productList">
+        <td class="logo-cell">
+          <!-- <img src="{{ item.logo }}" alt="Logo" width="50" height="50" /> -->
+          <img
+            src="https://picsum.photos/60"
+            alt="Logo"
+            width="50"
+            height="50"
+          />
+        </td>
+        <td>{{ item.name }}</td>
+        <td>{{ item.description }}</td>
+        <td>{{ item.date_release | date : "dd/MM/YYYY" }}</td>
+        <td>{{ item.date_revision | date : "dd/MM/YYYY" }}</td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="paginator">
+    <div>
+      <strong>{{ productList.length }} Resultados</strong>
+    </div>
+    <select
+      [(ngModel)]="selectedOption"
+      (ngModelChange)="getProductList(+$event)"
+    >
+      <option *ngFor="let option of options" [value]="option">
+        {{ option }}
+      </option>
+    </select>
+  </div>
+</div>
