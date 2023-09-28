@@ -1,4 +1,7 @@
 .search-input {
+  display: flex;
+  justify-content: space-between;
+
   background-color: #f4f6f9;
   padding-bottom: 20px;
 
@@ -6,6 +9,16 @@
     padding: 12px 10px;
     border: 1px solid #868686;
     border-radius: 4px;
+  }
+
+  button {
+    padding: 20px;
+    background-color: #f9de53;
+    color: #000;
+    border: unset;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
   }
 }
 

@@ -8,11 +8,27 @@ import { ProductsService } from './services/products.service';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { CustomHttpInterceptor } from './interceptor/http-interceptor';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RegisterProductComponent } from './pages/register-product/register-product.component';
+import { ProductFormComponent } from './components/product-form/product-form.component';
+import { ModalComponent } from './components/modal/modal.component';
 
 @NgModule({
-  declarations: [AppComponent, ProductsComponent, NavBarComponent],
-  imports: [BrowserModule, HttpClientModule, AppRoutingModule, FormsModule],
+  declarations: [
+    AppComponent,
+    ProductsComponent,
+    NavBarComponent,
+    RegisterProductComponent,
+    ProductFormComponent,
+    ModalComponent,
+  ],
+  imports: [
+    BrowserModule,
+    HttpClientModule,
+    AppRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
+  ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,

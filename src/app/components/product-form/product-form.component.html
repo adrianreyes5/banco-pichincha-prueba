@@ -1,0 +1,99 @@
+<form [formGroup]="productForm" (ngSubmit)="onSubmit()" class="product-form">
+  <h2 class="form-title">Formulario de Registro</h2>
+  <hr class="form-divider" />
+  <div class="form-row">
+    <div class="form-column">
+      <label for="id">ID</label>
+      <input
+        type="text"
+        id="id"
+        formControlName="id"
+        [ngClass]="{ invalid: control['id'].errors && submitted }"
+      />
+
+      <div class="error-message">
+        <span *ngIf="control['id'].errors && submitted"> ID no válido! </span>
+      </div>
+    </div>
+    <div class="form-column">
+      <label for="name">Nombre</label>
+      <input type="text" id="name" formControlName="name" />
+
+      <div class="error-message">
+        <span *ngIf="control['name'].errors && submitted">
+          Debe tener minimo 5 caracteres
+        </span>
+      </div>
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="form-column">
+      <label for="description">Descripción</label>
+      <input
+        type="text"
+        id="description"
+        formControlName="description"
+        [ngClass]="{ invalid: control['description'].errors && submitted }"
+      />
+
+      <div class="error-message">
+        <span *ngIf="control['description'].errors?.['required'] && submitted">
+          Este campo es requerido!
+        </span>
+        <span *ngIf="control['description'].errors?.['minlength'] && submitted">
+          Debe tener minimo 10 caracteres
+        </span>
+      </div>
+    </div>
+    <div class="form-column">
+      <label for="logo">Logo</label>
+      <input
+        type="text"
+        id="logo"
+        formControlName="logo"
+        [ngClass]="{ invalid: control['logo'].errors && submitted }"
+      />
+
+      <div class="error-message">
+        <span *ngIf="control['logo'].errors && submitted">
+          Este campo es requerido!
+        </span>
+      </div>
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="form-column">
+      <label for="date_release">Fecha liberación</label>
+      <input
+        type="text"
+        id="date_release"
+        formControlName="date_release"
+        (input)="handleRevisionDate($event)"
+      />
+
+      <div class="error-message">
+        <span *ngIf="!isValidDate"> Fecha invalida </span>
+      </div>
+    </div>
+    <div class="form-column">
+      <label for="date_revision">Fecha revisión</label>
+      <input type="text" id="date_revision" formControlName="date_revision" />
+    </div>
+  </div>
+
+  <div class="action-buttons">
+    <button type="button" class="restart" (click)="restart()">Reiniciar</button>
+
+    <button type="submit" class="submit">Enviar</button>
+  </div>
+</form>
+
+<app-modal
+  *ngIf="showModal"
+  [title]="modalState.title"
+  [showModal]="showModal"
+  [type]="'message'"
+  [showAction]="modalState.showAction"
+  (closeModal)="showModal = $event"
+>
+</app-modal>
