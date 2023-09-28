@@ -6,3 +6,9 @@ export interface Product {
   date_release: string;
   date_revision: string;
 }
+
+export interface Modal {
+  title: string;
+  showAction: boolean;
+  message?: string;
+}
