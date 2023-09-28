@@ -1,0 +1,24 @@
+<div class="modal-overlay">
+  <div class="modal">
+    <div class="modal-content">
+      <h3 class="modal-title" [ngClass]="{ 'margin-bottom': !description }">
+        {{ title }}
+      </h3>
+      <p>{{ description }}</p>
+      <p class="modal-description" *ngIf="description">{{ description }}</p>
+
+      <div
+        class="modal-buttons"
+        [ngClass]="{ 'center-buttons': type !== 'alert' }"
+        *ngIf="showAction"
+      >
+        <button class="close" (click)="close()">
+          {{ type !== "alert" ? "Cerrar" : "Cancelar" }}
+        </button>
+        <button *ngIf="type === 'alert'" class="confirm" (click)="close()">
+          Confirmar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
