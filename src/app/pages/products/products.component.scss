@@ -4,6 +4,8 @@
 
   background-color: #f4f6f9;
   padding-bottom: 20px;
+  margin: 100px auto 0 auto;
+  max-width: 1200px;
 
   input {
     padding: 12px 10px;
@@ -20,17 +22,52 @@
     font-weight: bold;
     cursor: pointer;
   }
+
+  @media screen and (max-width: 1280px) {
+    width: 900px;
+  }
+  @media screen and (max-width: 900px) {
+    flex-direction: column;
+    padding: 0 16px;
+    width: 600px;
+
+    button {
+      margin: 20px 0;
+    }
+  }
+  @media screen and (max-width: 500px) {
+    width: 330px;
+    background-color: transparent;
+  }
 }
 
 .table-container {
-  margin: 100px auto 0 auto;
+  margin: 0 auto;
   width: 100%;
   max-width: 1200px;
-  background-color: #fff;
+  position: relative;
+
+  overflow-x: auto;
+
+  @media screen and (max-width: 1280px) {
+    width: 900px;
+  }
+  @media screen and (max-width: 900px) {
+    width: 600px;
+  }
+  @media screen and (max-width: 500px) {
+    width: 350px;
+    background-color: transparent;
+  }
+}
+
+tbody {
+  overflow-x: auto;
+  width: 100%;
 }
 
 table {
-  width: 100%;
+  width: 1200px;
   border-collapse: collapse;
 }
 
@@ -39,6 +76,7 @@ td {
   padding: 20px 10px;
   text-align: left;
   border-bottom: 1px solid #ccc;
+  background-color: #fff;
 }
 
 th {
@@ -57,11 +95,24 @@ th {
 .paginator {
   display: flex;
   justify-content: space-between;
+  background-color: #fff;
   padding: 30px;
+
   select {
     width: 70px;
     padding: 5px 10px;
     border-radius: 4px;
+  }
+
+  @media screen and (max-width: 1280px) {
+    width: 840px;
+    position: fixed;
+  }
+  @media screen and (max-width: 900px) {
+    width: 540px;
+  }
+  @media screen and (max-width: 500px) {
+    width: 290px;
   }
 }
 
@@ -92,6 +143,10 @@ th {
     display: none;
     background-color: #fff;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+
+    @media screen and (max-width: 500px) {
+      left: -60px;
+    }
 
     &.open {
       display: block;
