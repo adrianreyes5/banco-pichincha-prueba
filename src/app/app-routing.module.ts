@@ -14,6 +14,7 @@ const routes: Routes = [
     component: ProductsComponent,
   },
   { path: 'products/create', component: RegisterProductComponent },
+  { path: 'products/edit/:id', component: RegisterProductComponent },
 ];
 
 @NgModule({
