@@ -12,11 +12,15 @@
         [ngClass]="{ 'center-buttons': type !== 'alert' }"
         *ngIf="showAction"
       >
-        <button class="close" (click)="close()">
+        <button class="close" (click)="this.closeModal.emit(false)">
           {{ type !== "alert" ? "Cerrar" : "Cancelar" }}
         </button>
-        <button *ngIf="type === 'alert'" class="confirm" (click)="close()">
-          Confirmar
+        <button
+          *ngIf="type === 'alert'"
+          class="confirm"
+          (click)="this.handleAction.emit(productId); this.handleLoading.emit(true)"
+        >
+          {{ loading ? "Cargando" : "Confirmar" }}
         </button>
       </div>
     </div>

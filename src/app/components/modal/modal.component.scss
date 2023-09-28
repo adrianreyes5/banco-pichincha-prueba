@@ -37,16 +37,17 @@
   .modal-buttons {
     margin: 0 30px;
     border-top: 1px solid #dbdbdb;
+    display: flex;
+    justify-content: space-around;
 
     &.center-buttons {
-      display: flex;
       justify-content: center;
     }
 
     button {
       margin-top: 20px;
       display: block;
-      width: 120px;
+      width: 150px;
       padding: 20px;
       color: #000;
       font-weight: bold;
@@ -56,6 +57,7 @@
     }
 
     .confirm {
+      background-color: #f9de53;
     }
   }
 }
