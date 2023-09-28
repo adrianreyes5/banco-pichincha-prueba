@@ -84,7 +84,9 @@
   <div class="action-buttons">
     <button type="button" class="restart" (click)="restart()">Reiniciar</button>
 
-    <button type="submit" class="submit">Enviar</button>
+    <button type="submit" class="submit" [disabled]="loading">
+      {{ loading ? "Enviando" : "Enviar" }}
+    </button>
   </div>
 </form>
 

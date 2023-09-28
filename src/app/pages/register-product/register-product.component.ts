@@ -1,13 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ProductsService } from 'src/app/services/products.service';
-import {
-  FormBuilder,
-  FormGroup,
-  Validators,
-  UntypedFormGroup,
-  UntypedFormBuilder,
-} from '@angular/forms';
+
+import { Router } from '@angular/router';
+import { Product } from 'src/app/interfaces';
 
 @Component({
   selector: 'app-register-product',
@@ -16,41 +12,17 @@ import {
 })
 export class RegisterProductComponent implements OnInit, OnDestroy {
   private subscriber: Subscription = new Subscription();
+  public productData: Product;
 
-  productForm: UntypedFormGroup | undefined;
+  constructor(private router: Router) {
+    const state = this.router.getCurrentNavigation()?.extras?.state;
 
-  constructor(
-    private productService: ProductsService,
-    private formBuilder: UntypedFormBuilder
-  ) {}
+    this.productData = state?.['product'];
+  }
 
   ngOnInit(): void {}
 
-  loadForm(): void {
-    this.productForm = this.formBuilder.group({
-      id: ['', Validators.required],
-      name: [''],
-      description: ['', Validators.required],
-      logo: ['', Validators.required],
-      date_release: [new Date()],
-      date_revision: ['', Validators.required],
-    });
-  }
-
-  /**
-   * verify product by id
-   * @param id
-   */
-  verifyProductExistence(id: number): void {
-    this.subscriber = this.productService.verifyExistence(id).subscribe(
-      (res) => {
-        console.log(res);
-      },
-      ({ error }) => {
-        console.log(error);
-      }
-    );
-  }
+  loadForm(): void {}
 
   ngOnDestroy(): void {
     if (this.subscriber) this.subscriber.unsubscribe();

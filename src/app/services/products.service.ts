@@ -33,9 +33,28 @@ export class ProductsService {
   }
 
   /**
+   * endpoint to edit product
+   * @returns updated product
+   */
+  editProduct(data: Product): Observable<Product[]> {
+    return this.httpClient
+      .put(`${this.baseUrl}`, data)
+      .pipe(map((res) => res as Product[]));
+  }
+
+  /**
+   * endpoint to delete product
+   */
+  deleteProduct(id: string): Observable<string> {
+    return this.httpClient
+      .delete(`${this.baseUrl}?id=${id}`)
+      .pipe(map((res) => res as string));
+  }
+
+  /**
    * @returns products
    */
-  verifyExistence(id: number): Observable<boolean> {
+  verifyExistence(id: string): Observable<boolean> {
     return this.httpClient
       .get(`${this.baseUrl}/verification?id=${id}`)
       .pipe(map((res) => res as boolean));

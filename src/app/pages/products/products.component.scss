@@ -64,3 +64,53 @@ th {
     border-radius: 4px;
   }
 }
+
+.menu {
+  position: relative;
+  display: inline-block;
+
+  .menu-trigger {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+
+    span {
+      display: block;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background-color: #797979;
+      margin-bottom: 4px;
+    }
+  }
+
+  .dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: -40px;
+    display: none;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+
+    &.open {
+      display: block;
+      z-index: 10;
+    }
+
+    .dropdown-item {
+      margin-bottom: 12px;
+      font-size: 14px;
+      padding: 12px 10px;
+
+      &:hover {
+        cursor: pointer;
+        background-color: #dadada;
+      }
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+}

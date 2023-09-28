@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ProductsService } from 'src/app/services/products.service';
 import {
@@ -8,7 +8,7 @@ import {
 } from '@angular/forms';
 import * as dayjs from 'dayjs';
 import { Router } from '@angular/router';
-import { Modal } from 'src/app/interfaces';
+import { Modal, Product } from 'src/app/interfaces';
 
 @Component({
   selector: 'app-product-form',
@@ -22,12 +22,15 @@ export class ProductFormComponent implements OnInit, OnDestroy {
   protected submitted: boolean = false;
   protected isValidDate: boolean = true;
   protected showModal: boolean = false;
+  protected loading: boolean = false;
 
   protected modalState: Modal = {
     title: '',
     message: '',
     showAction: false,
   };
+
+  @Input() product: Product | undefined;
 
   constructor(
     private productService: ProductsService,
@@ -36,13 +39,13 @@ export class ProductFormComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.loadForm();
+    this.loadForm(this.product);
   }
 
-  loadForm(): void {
+  loadForm(product?: Product): void {
     this.productForm = this.formBuilder.group({
       id: [
-        '',
+        product?.id || '',
         [
           Validators.required,
           Validators.minLength(3),
@@ -50,7 +53,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
         ],
       ],
       name: [
-        '',
+        product?.name || '',
         [
           Validators.required,
           Validators.minLength(5),
@@ -58,20 +61,22 @@ export class ProductFormComponent implements OnInit, OnDestroy {
         ],
       ],
       description: [
-        '',
+        product?.description || '',
         [
           Validators.required,
           Validators.minLength(10),
           Validators.maxLength(200),
         ],
       ],
-      logo: ['', Validators.required],
+      logo: [product?.logo || '', Validators.required],
       date_release: [
-        dayjs(new Date()).format('DD/MM/YYYY'),
+        dayjs(product?.date_release).format('DD/MM/YYYY') ||
+          dayjs(new Date()).format('DD/MM/YYYY'),
         Validators.required,
       ],
       date_revision: [
-        dayjs(new Date()).add(1, 'year').format('DD/MM/YYYY'),
+        dayjs(product?.date_revision).format('DD/MM/YYYY') ||
+          dayjs(new Date()).add(1, 'year').format('DD/MM/YYYY'),
         Validators.required,
       ],
     });
@@ -96,21 +101,6 @@ export class ProductFormComponent implements OnInit, OnDestroy {
     const month = (today.getMonth() + 1).toString().padStart(2, '0');
     const day = today.getDate().toString().padStart(2, '0');
     return `${year}-${month}-${day}`;
-  }
-
-  /**
-   * verify product by id
-   * @param id
-   */
-  verifyProductExistence(id: number): void {
-    this.subscriber = this.productService.verifyExistence(id).subscribe(
-      (res) => {
-        console.log(res);
-      },
-      ({ error }) => {
-        console.log(error);
-      }
-    );
   }
 
   handleRevisionDate(e: Event): void {
@@ -141,9 +131,9 @@ export class ProductFormComponent implements OnInit, OnDestroy {
   onSubmit(): void {
     this.submitted = true;
 
-    console.log(this.productForm.controls);
-
     if (this.productForm.status === 'INVALID' || !this.isValidDate) return;
+
+    this.loading = true;
 
     const data = {
       ...this.productForm.value,
@@ -155,6 +145,18 @@ export class ProductFormComponent implements OnInit, OnDestroy {
       ),
     };
 
+    if (!!this.product) {
+      this.editProduct(data);
+    } else {
+      this.verifyProductExistence(this.productForm.get('id')?.value, data);
+    }
+  }
+
+  /**
+   * create a product after verify id existence
+   * @param data
+   */
+  createProduct(data: Product): void {
     this.subscriber = this.productService.createProduct(data).subscribe(
       (res) => {
         this.modalState = {
@@ -163,10 +165,44 @@ export class ProductFormComponent implements OnInit, OnDestroy {
         };
 
         this.showModal = true;
+        this.loading = false;
 
         setTimeout(() => {
           this.router.navigate(['/products']);
         }, 2000);
+      },
+      ({ error }) => {
+        this.modalState = {
+          title: 'Ha Ocurrido un error',
+          showAction: true,
+        };
+
+        this.showModal = true;
+        this.loading = false;
+      }
+    );
+  }
+
+  /**
+   * verify product by id
+   * @param id
+   */
+  verifyProductExistence(id: string, data: Product): void {
+    this.subscriber = this.productService.verifyExistence(id).subscribe(
+      (res) => {
+        console.log(res);
+
+        if (!res) {
+          this.createProduct(data);
+        } else {
+          this.modalState = {
+            title: 'Producto duplicado',
+            showAction: true,
+          };
+
+          this.showModal = true;
+          this.loading = false;
+        }
       },
       ({ error }) => {
         console.log(error);
@@ -177,6 +213,38 @@ export class ProductFormComponent implements OnInit, OnDestroy {
         };
 
         this.showModal = true;
+        this.loading = false;
+      }
+    );
+  }
+
+  /**
+   * edit a product and verify id existence
+   * @param data
+   */
+  editProduct(data: Product): void {
+    this.subscriber = this.productService.editProduct(data).subscribe(
+      (res) => {
+        this.modalState = {
+          title: 'Producto editado exitosamente!',
+          showAction: false,
+        };
+
+        this.showModal = true;
+        this.loading = false;
+
+        setTimeout(() => {
+          this.router.navigate(['/products']);
+        }, 2000);
+      },
+      ({ error }) => {
+        this.modalState = {
+          title: 'Ha Ocurrido un error',
+          showAction: true,
+        };
+
+        this.showModal = true;
+        this.loading = false;
       }
     );
   }

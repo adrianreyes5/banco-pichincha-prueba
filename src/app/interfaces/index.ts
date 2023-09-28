@@ -12,3 +12,8 @@ export interface Modal {
   showAction: boolean;
   message?: string;
 }
+
+export interface Alert {
+  id: string;
+  open: boolean;
+}

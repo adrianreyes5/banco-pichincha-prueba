@@ -17,14 +17,15 @@
         <th>Descripción</th>
         <th>Fecha de liberación</th>
         <th>Fecha de reestructuración</th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let item of productList">
+      <tr *ngFor="let item of productList; index as i">
         <td class="logo-cell">
           <!-- <img src="{{ item.logo }}" alt="Logo" width="50" height="50" /> -->
           <img
-            src="https://picsum.photos/60"
+            src="{{ item.logo }}"
             alt="Logo"
             width="50"
             height="50"
@@ -34,6 +35,26 @@
         <td>{{ item.description }}</td>
         <td>{{ item.date_release | date : "dd/MM/YYYY" }}</td>
         <td>{{ item.date_revision | date : "dd/MM/YYYY" }}</td>
+        <td>
+          <div class="menu">
+            <button class="menu-trigger" (click)="toggleMenu(item.id)">
+              <span></span>
+              <span></span>
+              <span></span>
+            </button>
+            <div
+              class="dropdown-menu"
+              [class.open]="isMenuOpen.open && isMenuOpen.id === item.id"
+            >
+              <div class="dropdown-item" (click)="edit(item)">
+                <span>Editar</span>
+              </div>
+              <div class="dropdown-item" (click)="openDeleteProductModal(item)">
+                <span>Eliminar</span>
+              </div>
+            </div>
+          </div>
+        </td>
       </tr>
     </tbody>
   </table>
@@ -51,3 +72,17 @@
     </select>
   </div>
 </div>
+
+<app-modal
+  *ngIf="showModal.open"
+  [title]="modalState.title"
+  [showModal]="showModal.open"
+  [productId]="showModal.id"
+  [type]="'alert'"
+  [showAction]="modalState.showAction"
+  [loading]="loadingDelete"
+  (closeModal)="showModal = { id: '', open: $event }"
+  (handleLoading)="loadingDelete = $event"
+  (handleAction)="deleteProduct($event)"
+>
+</app-modal>
