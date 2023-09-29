@@ -22,6 +22,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
   protected isMenuOpen: Alert = { id: '', open: false };
   protected showModal: Alert = { id: '', open: false };
   protected loadingDelete: boolean = false;
+  protected loading: boolean = false;
 
   protected modalState: Modal = {
     title: '',
@@ -42,6 +43,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
    * list products
    */
   getProductList(paginationValue: number): void {
+    this.loading = true;
     this.subscriber = this.productService.getProductList().subscribe(
       (res) => {
         this.allProductList = res.slice(0, paginationValue).map((item, i) => {
@@ -54,9 +56,11 @@ export class ProductsComponent implements OnInit, OnDestroy {
 
           return item;
         });
+        this.loading = false;
       },
       ({ error }) => {
         console.error(error);
+        this.loading = false;
       }
     );
   }
@@ -173,7 +177,6 @@ export class ProductsComponent implements OnInit, OnDestroy {
   testImage(url: string, index: number): void {
     let tester = new Image();
     tester.addEventListener('error', () => {
-      console.log(index);
       this.allProductList[index].logo = 'https://picsum.photos/60';
       this.productList[index].logo = 'https://picsum.photos/60';
     });

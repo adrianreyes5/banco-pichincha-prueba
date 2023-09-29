@@ -9,8 +9,8 @@
   <button class="create-button" routerLink="/products/create">Agregar</button>
 </div>
 
-<div class="table-container">
-  <table>
+<div class="table-container" *ngIf="!loading">
+  <table class="product-table">
     <thead>
       <tr>
         <th>Logo</th>
@@ -53,7 +53,40 @@
         </td>
       </tr>
     </tbody>
+    <tbody *ngIf="loading">
+      <tr *ngFor="let item of productList; index as i">
+        <td class="logo-cell">
+          <!-- <img src="{{ item.logo }}" alt="Logo" width="50" height="50" /> -->
+          <img src="{{ item.logo }}" alt="Logo" width="50" height="50" />
+        </td>
+        <td>{{ item.name }}</td>
+        <td>{{ item.description }}</td>
+        <td>{{ item.date_release | date : "dd/MM/YYYY" }}</td>
+        <td>{{ item.date_revision | date : "dd/MM/YYYY" }}</td>
+        <td>
+          <div class="menu">
+            <button class="menu-trigger" (click)="toggleMenu(item.id)">
+              <span></span>
+              <span></span>
+              <span></span>
+            </button>
+            <div
+              class="dropdown-menu"
+              [class.open]="isMenuOpen.open && isMenuOpen.id === item.id"
+            >
+              <div class="dropdown-item" (click)="edit(item)">
+                <span>Editar</span>
+              </div>
+              <div class="dropdown-item" (click)="openDeleteProductModal(item)">
+                <span>Eliminar</span>
+              </div>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </tbody>
   </table>
+
   <div class="paginator">
     <div>
       <strong>{{ productList.length }} Resultados</strong>
@@ -67,6 +100,58 @@
       </option>
     </select>
   </div>
+</div>
+
+<div class="table-container" *ngIf="loading">
+  <table class="table-skeleton">
+    <thead>
+      <tr>
+        <th>Logo</th>
+        <th>Nombre del productor</th>
+        <th>Descripción</th>
+        <th>Fecha de liberación</th>
+        <th>Fecha de reestructuración</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr class="skeleton-row">
+        <td class="skeleton-cell"></td>
+        <td class="skeleton-cell"></td>
+        <td class="skeleton-cell"></td>
+        <td class="skeleton-cell"></td>
+        <td class="skeleton-cell"></td>
+      </tr>
+      <tr class="skeleton-row">
+        <td class="skeleton-cell"></td>
+        <td class="skeleton-cell"></td>
+        <td class="skeleton-cell"></td>
+        <td class="skeleton-cell"></td>
+        <td class="skeleton-cell"></td>
+      </tr>
+      <tr class="skeleton-row">
+        <td class="skeleton-cell"></td>
+        <td class="skeleton-cell"></td>
+        <td class="skeleton-cell"></td>
+        <td class="skeleton-cell"></td>
+        <td class="skeleton-cell"></td>
+      </tr>
+      <tr class="skeleton-row">
+        <td class="skeleton-cell"></td>
+        <td class="skeleton-cell"></td>
+        <td class="skeleton-cell"></td>
+        <td class="skeleton-cell"></td>
+        <td class="skeleton-cell"></td>
+      </tr>
+      <tr class="skeleton-row">
+        <td class="skeleton-cell"></td>
+        <td class="skeleton-cell"></td>
+        <td class="skeleton-cell"></td>
+        <td class="skeleton-cell"></td>
+        <td class="skeleton-cell"></td>
+      </tr>
+    </tbody>
+  </table>
 </div>
 
 <app-modal
