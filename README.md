@@ -1,6 +1,6 @@
 # Banco Pichincha Prueba
 
-Proyecto prueba para postulante desarrollador Angular DevsuLLC
+Proyecto prueba para postulante desarrollador Angular Devsu LLC
 
 ## Instalar angular cli (opcional)
 
