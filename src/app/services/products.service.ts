@@ -8,7 +8,7 @@ import { Product } from '../interfaces';
   providedIn: 'root',
 })
 export class ProductsService {
-  private baseUrl: string =
+  public baseUrl: string =
     'https://tribu-ti-staffing-desarrollo-afangwbmcrhucqfh.z01.azurefd.net/ipf-msa-productosfinancieros/bp/products';
 
   constructor(private httpClient: HttpClient) {}
@@ -26,20 +26,20 @@ export class ProductsService {
    * endpoint to create product
    * @returns created product
    */
-  createProduct(data: Product): Observable<Product[]> {
+  createProduct(data: Product): Observable<Product> {
     return this.httpClient
       .post(`${this.baseUrl}`, data)
-      .pipe(map((res) => res as Product[]));
+      .pipe(map((res) => res as Product));
   }
 
   /**
    * endpoint to edit product
    * @returns updated product
    */
-  editProduct(data: Product): Observable<Product[]> {
+  editProduct(data: Product): Observable<Product> {
     return this.httpClient
       .put(`${this.baseUrl}`, data)
-      .pipe(map((res) => res as Product[]));
+      .pipe(map((res) => res as Product));
   }
 
   /**

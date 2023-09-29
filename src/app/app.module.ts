@@ -12,6 +12,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RegisterProductComponent } from './pages/register-product/register-product.component';
 import { ProductFormComponent } from './components/product-form/product-form.component';
 import { ModalComponent } from './components/modal/modal.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -23,8 +24,9 @@ import { ModalComponent } from './components/modal/modal.component';
     ModalComponent,
   ],
   imports: [
-    BrowserModule,
     HttpClientModule,
+    RouterModule,
+    BrowserModule,
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
