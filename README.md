@@ -12,4 +12,4 @@ Ejecutar el comando `ng serve` para un servidor de desarrollo, luego navegar a `
 
 ## Ejecutar tests unitarios
 
-Ejecuta `ng test` para ejecutar test unitarios
+Ejecuta `ng test` para ejecutar tests unitarios
